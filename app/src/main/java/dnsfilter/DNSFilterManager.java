@@ -54,7 +54,6 @@ import java.util.zip.ZipOutputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import dnsfilter.remote.RemoteAccessServer;
 import util.ExecutionEnvironment;
 import util.FileLogger;
 import util.Logger;
@@ -91,7 +90,6 @@ public class DNSFilterManager extends ConfigurationAccess  {
 	private boolean reloading_filter = false;
 	private AutoFilterUpdater autoFilterUpdater;
 
-	private static RemoteAccessServer remoteAccessManager ;
 
 
 	private static String DOWNLOADED_FF_PREFIX= "# Downloaded by personalDNSFilter at: ";
@@ -1220,8 +1218,6 @@ public class DNSFilterManager extends ConfigurationAccess  {
 	private void updateIndexReloadInfoConfFile(String url) {
 		try {
 			invalidate();
-			if (remoteAccessManager!= null)
-				remoteAccessManager.invalidate();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getPath() + "dnsfilter.conf")));
 			String ln;
@@ -1454,17 +1450,6 @@ public class DNSFilterManager extends ConfigurationAccess  {
 			serverStopped = false;
 
 			//start remote Control server if configured and not started already
-			if (remoteAccessManager == null) {
-				try {
-					int port = Integer.parseInt(config.getProperty("server_remote_ctrl_port", "-1"));
-					String keyphrase = config.getProperty("server_remote_ctrl_keyphrase", "");
-					if (port != -1)
-						remoteAccessManager = new RemoteAccessServer(port, keyphrase);
-				} catch (Exception e) {
-					Logger.getLogger().logException(e);
-				}
-			}
-
 			try {
 				okCacheSize = Integer.parseInt(config.getProperty("allowedHostsCacheSize", "1000").trim());
 				filterListCacheSize = Integer.parseInt(config.getProperty("filterHostsCacheSize", "1000").trim());

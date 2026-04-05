@@ -6,13 +6,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import dnsfilter.remote.RemoteAccessClient;
 import util.LoggerInterface;
 
 public abstract class ConfigurationAccess {
 
     protected ConfigUtil config_util = null;
-    protected static ConfigurationAccess REMOTE;
 
 
     public static class ConfigurationAccessException extends IOException{
@@ -29,15 +27,8 @@ public abstract class ConfigurationAccess {
         return DNSFilterManager.getInstance();
     }
 
-    static public ConfigurationAccess getRemote(LoggerInterface logger, String host, int port, String keyphrase) throws IOException {
-        REMOTE = new RemoteAccessClient(logger, host, port, keyphrase);
-        return REMOTE;
-    }
-
     static public ConfigurationAccess getCurrent(){
-        if (REMOTE == null)
-            return getLocal();
-        else return REMOTE;
+        return getLocal();
     }
 
     protected void invalidate() {

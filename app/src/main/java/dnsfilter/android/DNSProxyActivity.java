@@ -1393,14 +1393,9 @@ public class DNSProxyActivity extends Activity
 						message("Connecting: " + host + ":" + port);
 						MsgTO.setTimeout(150000);
 
-						try {
-							onRemoteConnected(ConfigurationAccess.getRemote(myLogger.getNestedLogger(), host, port, keyphrase));
-							checkPasscode();
-						} catch (IOException e) {
-							Logger.getLogger().logLine("Remote connect failed!" + e.toString());
-							message("Remote Connect Failed!");
-							switchingConfig = false;
-						}
+						Logger.getLogger().logLine("Remote connect not supported!");
+						message("Remote Connect not supported!");
+						switchingConfig = false;
 					}
 				};
 				new Thread(asyncConnect).start();
