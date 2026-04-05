@@ -690,32 +690,4 @@ public class DOHHttp2Util {
         }
     }
 
-    // ---- Demo main ----
-
-    public static void main(String[] args) throws Exception {
-        int port = 443;
-        // String host = "dns.google";
-        // String host = "dns.mullvad.net";
-        // String host = "dns.cloudflare.com";
-        String host = "dns.quad9.net";
-
-        InetAddress iadr = InetAddress.getByName(host);
-        InetSocketAddress sadr = new InetSocketAddress(iadr, port);
-
-        for (int i = 0; i < 300; i++) {
-            try {
-                byte[] dnsQuery = buildDnsQuery("www.zenz-solutions.de", 1);
-                System.out.println("Results for www.zenz-solutions.de:");
-                dumpResponse(sendDnsQuery(sadr, "/dns-query", dnsQuery, 0, dnsQuery.length, 0, Proxy.NO_PROXY));
-
-                dnsQuery = buildDnsQuery("www.example.com", 1);
-                System.out.println("Results for www.example.com:");
-                dumpResponse(sendDnsQuery(sadr, "/dns-query", dnsQuery, 0, dnsQuery.length, 0, Proxy.NO_PROXY));
-
-            } catch (Exception e) {
-                System.err.println("Error: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
 }
